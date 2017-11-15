@@ -6,14 +6,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 <mapper namespace="Catalogo">
     
-    <select id="getAllCatalogos" resulType="pojos.Catalogo">
+    <select id="getAllCatalogos" resultType="pojos.Catalogo">
         SELECT 
         catalogo.idCatalogo,
         catalogo.idTipo,
-        catalogo.nombre;
+        catalogo.nombre,
         catalogo.orden
         FROM
         catalogo
+    </select>
+    
+    <select id="getCatalogoByIdtipo" resultType="pojos.Catalogo"
+            parameterType="int">
+        SELECT 
+        catalogo.idCatalogo,
+        catalogo.idTipo,
+        catalogo.nombre,
+        catalogo.orden
+        FROM catalogo
+        WHERE catalogo.idTipo = #{id} <!-- #{id} es el dato que manda el usuario -->
     </select>
     
 </mapper>

@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
+import mybatis.MyBatisUtil;
+import org.apache.ibatis.session.SqlSession;
 import pojos.Catalogo;
 
 /**
@@ -68,5 +68,43 @@ public class CatalogoWS {
         
         Catalogo catalogo = new Catalogo(idCatalogo, idTipo, nombre, orden);
         return catalogo;
+    }
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("allbd")
+    public List<Catalogo> getAllBD() {
+        List<Catalogo> miLista = null;
+        SqlSession conn = MyBatisUtil.getSession();
+        if (conn != null) {
+            // Se pudo hacer la configuracion
+            try {
+                miLista = conn.selectList("Catalogo.getAllCatalogos");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                conn.close();
+            }
+        }
+        return miLista;
+    }
+    
+    
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("byIdTipo/{idtipo}")
+    public List<Catalogo> getCatalogoByIdTipo(@PathParam("idtipo") Integer idTipo){
+        List<Catalogo> miListaByTipo = null;
+        SqlSession conn = MyBatisUtil.getSession();
+        if (conn != null){
+            try{
+                miListaByTipo = conn.selectList("Catalogo.getCatalogoByIdtipo", idTipo);
+            }catch(Exception e){
+                e.printStackTrace();
+            }finally{
+                conn.close();
+            }
+        }
+        return miListaByTipo;
     }
 }
