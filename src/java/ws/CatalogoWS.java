@@ -7,16 +7,19 @@ package ws;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
 import mybatis.MyBatisUtil;
 import org.apache.ibatis.session.SqlSession;
 import pojos.Catalogo;
+import pojos.Mensaje;
 
 /**
  * REST Web Service
@@ -106,5 +109,35 @@ public class CatalogoWS {
             }
         }
         return miListaByTipo;
+    }
+    
+    
+    @Path("registro")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    public Mensaje registraCatalogo(@FormParam("idCatalogo")Integer idCatalogo,
+                                    @FormParam("idTipo")Integer idTipo,
+                                    @FormParam("nombre")String nombre,
+                                    @FormParam("orden")Integer orden){
+        
+        Mensaje resultado;
+        Catalogo cata = new Catalogo(idCatalogo, idTipo, nombre, orden);
+        SqlSession conn = MyBatisUtil.getSession();
+        try{
+            //Se puede preguntar si conexion es nula
+            int codeResult = conn.insert("Catalogo.registrarCatalogo", cata);
+            conn.commit();
+            System.out.println("Filas afectadas: "+codeResult);
+            if (codeResult > 0){
+                resultado = new Mensaje(false, "Catalogo resgistrado");
+            }else{
+                resultado = new Mensaje(true, "Catalogo NO resgistrado");
+            }
+        }catch(Exception e){
+            resultado = new Mensaje(true, e.getMessage());
+        }finally{
+            conn.close();
+        }
+        return resultado;
     }
 }

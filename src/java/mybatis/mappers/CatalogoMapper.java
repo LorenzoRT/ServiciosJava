@@ -14,7 +14,11 @@ import pojos.Catalogo;
  */
 public interface CatalogoMapper {
     
+    //Consultas catalogo
     public List<Catalogo> getAllCatalogos();
     public List<Catalogo> getCatalogoByIdtipo(Integer id);
+    
+    //Metodo para agregar catalogo
+    public void registrarCatalogo(Integer idCatalogo, String nombre, Integer idTipo, Integer orden);
     
 }

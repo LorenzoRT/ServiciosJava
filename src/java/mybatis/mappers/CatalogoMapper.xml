@@ -27,4 +27,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         WHERE catalogo.idTipo = #{id} <!-- #{id} es el dato que manda el usuario -->
     </select>
     
+    
+    <insert id="registrarCatalogo" parameterType="pojos.Catalogo" >
+        INSERT INTO catalogo (idCatalogo, idTipo, nombre, orden)
+        VALUES (#{idCatalogo},#{idTipo},#{nombre},#{orden})
+        
+    </insert>
+    
 </mapper>
