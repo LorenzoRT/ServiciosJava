@@ -7,12 +7,14 @@ package ws;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
@@ -139,5 +141,53 @@ public class CatalogoWS {
             conn.close();
         }
         return resultado;
+    }
+    
+    
+    @Path("actualizar")
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    public Mensaje actualzarCatalogo(@FormParam("idcatalogo")Integer idcatalogo,
+                                     @FormParam("nombre")String nombre,
+                                     @FormParam("orden")Integer orden){
+        Mensaje respuesta;
+        Catalogo catalogo = new Catalogo(idcatalogo, null, nombre, orden);
+        SqlSession conn = MyBatisUtil.getSession();
+        try{
+            int filasAfectadas = conn.update("Catalogo.actualizarCatalogo", catalogo);
+            conn.commit();
+            if (filasAfectadas > 0){
+                respuesta = new Mensaje(false, "Catalogo Actualizado con exito");
+            }else{
+                respuesta = new Mensaje(true, "Error al actualizar");
+            }
+        }catch(Exception e){
+            respuesta = new Mensaje(true, e.getMessage());
+        }finally{
+            conn.close();
+        }
+        return respuesta;
+    }
+    
+    @Path("eliminar")
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    public Mensaje eliminarCatalogo(@FormParam("idcatalogo") Integer idcatalogo){
+        Mensaje respuesta;
+        SqlSession conn = MyBatisUtil.getSession();
+        try{
+            int filasAfectadas = conn.delete("Catalogo.eliminarCatalogo", idcatalogo); // namespace + id
+            conn.commit();
+            if(filasAfectadas > 0){
+                respuesta = new Mensaje(false,"Catalogo eliminado con exito");
+            }else{
+                respuesta = new Mensaje(true,"EL catalogo no pudo ser eliminado");
+            }
+        }catch(Exception e){
+            respuesta = new Mensaje(true, e.getMessage());
+        }finally{
+            conn.close();
+        }
+        return respuesta;
     }
 }

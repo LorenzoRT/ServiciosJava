@@ -7,7 +7,7 @@ package pojos;
  */
 public class Catalogo {
     
-    Integer idCatalogo;
+    Integer idcatalogo;
     Integer idTipo;
     String nombre;
     Integer orden;
@@ -15,19 +15,19 @@ public class Catalogo {
     public Catalogo() {
     }
 
-    public Catalogo(Integer idCatalogo, Integer idTipo, String nombre, Integer orden) {
-        this.idCatalogo = idCatalogo;
+    public Catalogo(Integer idcatalogo, Integer idTipo, String nombre, Integer orden) {
+        this.idcatalogo = idcatalogo;
         this.idTipo = idTipo;
         this.nombre = nombre;
         this.orden = orden;
     }
 
-    public Integer getIdCatalogo() {
-        return idCatalogo;
+    public Integer getIdcatalogo() {
+        return idcatalogo;
     }
 
-    public void setIdCatalogo(Integer idCatalogo) {
-        this.idCatalogo = idCatalogo;
+    public void setIdcatalogo(Integer idcatalogo) {
+        this.idcatalogo = idcatalogo;
     }
 
     public Integer getIdTipo() {
@@ -53,5 +53,7 @@ public class Catalogo {
     public void setOrden(Integer orden) {
         this.orden = orden;
     }
+
+    
     
 }

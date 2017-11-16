@@ -21,4 +21,9 @@ public interface CatalogoMapper {
     //Metodo para agregar catalogo
     public void registrarCatalogo(Integer idCatalogo, String nombre, Integer idTipo, Integer orden);
     
+    //Metodo para editar registro
+    public void actualizarCatalogo(Integer idcatalogo, String nombre, Integer orden);
+    
+    public void eliminarCatalogo(Integer idcatalogo);
+    
 }

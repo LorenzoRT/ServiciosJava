@@ -31,7 +31,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <insert id="registrarCatalogo" parameterType="pojos.Catalogo" >
         INSERT INTO catalogo (idCatalogo, idTipo, nombre, orden)
         VALUES (#{idCatalogo},#{idTipo},#{nombre},#{orden})
-        
     </insert>
+    
+    <update id="actualizarCatalogo" parameterType="pojos.Catalogo"> 
+        UPDATE catalogo SET nombre=#{nombre}, orden=#{orden}
+        WHERE idCatalogo = #{idcatalogo}
+    </update>
+    
+    <delete id="eliminarCatalogo" parameterType="int">
+        DELETE FROM catalogo WHERE idcatalogo= #{idcatalogo} <!-- Parametro del metodo -->
+    </delete>
     
 </mapper>
